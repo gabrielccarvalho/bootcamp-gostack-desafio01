@@ -4,11 +4,20 @@ const app = express();
 
 app.use(express.json());
 
+let requests = 0;
 const projects = [];
+
+app.use((req, res, next) => {
+  requests++;
+
+  console.log(`Até o momento foram feitas ${requests} requisições`);
+
+  next();
+});
 
 function checkIfIdExists(req, res, next) {
   const { id } = req.params;
-  const project = projects.find(p => p.id == id);
+  const project = projects.find(props => props.id == id);
 
   if (!project) {
     return res
@@ -35,7 +44,7 @@ app.put("/projects/:id", checkIfIdExists, (req, res) => {
   const { id } = req.params;
   const { title } = req.body;
 
-  const project = projects.find(p => p.id == id);
+  const project = projects.find(props => props.id == id);
 
   project.title = title;
 
@@ -45,7 +54,7 @@ app.put("/projects/:id", checkIfIdExists, (req, res) => {
 app.delete("/projects/:id", checkIfIdExists, (req, res) => {
   const { id } = req.params;
 
-  const index = projects.findIndex(p => p.id == `${id}`);
+  const index = projects.findIndex(props => props.id == `${id}`);
 
   projects.splice(index, 1);
 
@@ -56,7 +65,7 @@ app.post("/projects/:id/tasks", checkIfIdExists, (req, res) => {
   const { id } = req.params;
   const { title } = req.body;
 
-  const project = projects.find(p => p.id == id);
+  const project = projects.find(props => props.id == id);
 
   project.tasks = title;
 
