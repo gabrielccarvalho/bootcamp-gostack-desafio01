@@ -4,8 +4,10 @@ const app = express();
 
 app.use(express.json());
 
-app.post("/projects", (req, res) => {
-  req.params.id;
+const projects = [];
+
+app.get("/projects", (req, res) => {
+  return res.json(projects);
 });
 
 app.listen(3000);
