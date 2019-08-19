@@ -18,4 +18,15 @@ app.post("/projects", (req, res) => {
   return res.json(projects);
 });
 
+app.put("/projects/:id", (req, res) => {
+  const { id } = req.params;
+  const { title } = req.body;
+
+  const project = projects.find(p => p.id == id);
+
+  project.title = title;
+
+  return res.json(project);
+});
+
 app.listen(3000);
