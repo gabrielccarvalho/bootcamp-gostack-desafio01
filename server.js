@@ -39,4 +39,15 @@ app.delete("/projects/:id", (req, res) => {
   return res.json(projects);
 });
 
+app.post("/projects/:id/tasks", (req, res) => {
+  const { id } = req.params;
+  const { title } = req.body;
+
+  const project = projects.find(p => p.id == id);
+
+  project.tasks = title;
+
+  return res.json(project);
+});
+
 app.listen(3000);
